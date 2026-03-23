@@ -12,6 +12,16 @@ pipeline {
                     }
                 }
             }
+            
+        }
+        stage('Test') {
+            steps {
+                script {
+                    docker.image('node:16-buster-slim').inside {
+                        sh './jenkins/scripts/test.sh'
+                    }
+                }
+            }
         }
     }
 
