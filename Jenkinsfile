@@ -1,16 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16-buster-slim'
-        }
-    }
+    agent any
 
     stages {
         stage('Install Dependencies') {
             steps {
-                sh 'node -v'
-                sh 'npm -v'
-                sh 'npm install'
+                script {
+                    docker.image('node:16-buster-slim').inside {
+                        sh 'node -v'
+                        sh 'npm -v'
+                        sh 'npm install'
+                    }
+                }
             }
         }
     }
