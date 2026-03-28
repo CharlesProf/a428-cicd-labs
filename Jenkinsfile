@@ -1,5 +1,6 @@
 node {
     stage('Build') {
+        checkout scm
         script {
             docker.image('node:16-buster-slim').inside {
                 sh 'node -v'
