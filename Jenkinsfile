@@ -1,20 +1,34 @@
 node {
     stage('Build') {
         checkout scm
-        sh 'node -v'
-        sh 'npm -v'
-        sh 'npm install'
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh 'node -v'
+                sh 'npm -v'
+                sh 'npm install'
+            }
+        }
     }
 
     stage('Test') {
-        sh './jenkins/scripts/test.sh'
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh './jenkins/scripts/test.sh'
+            }
+        }
     }
 
     stage('Deploy') {
-        sh './jenkins/scripts/deliver.sh'
-        
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh './jenkins/scripts/deliver.sh'
+            }
+        }
         input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
-        
-        sh './jenkins/scripts/kill.sh'
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
     }
 }
