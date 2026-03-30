@@ -19,11 +19,12 @@ node {
     }
 
     stage('Deploy') {
-        // ❗ JANGAN pakai docker.image di sini
-        sh './jenkins/scripts/deliver.sh'
-
-        input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
-
-        sh './jenkins/scripts/kill.sh'
+        steps {
+            script {
+                docker.image('node:16-buster-slim').inside {
+                    sh './jenkins/scripts/deliver.sh'
+                }
+            }
+        }
     }
 }
