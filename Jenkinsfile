@@ -19,12 +19,8 @@ node {
     }
 
     stage('Deploy') {
-        steps {
-            script {
-                docker.image('node:16-buster-slim').inside {
-                    sh './jenkins/scripts/deliver.sh'
-                }
-            }
+        docker.image('node:16-buster-slim').inside {
+            sh './jenkins/scripts/deliver.sh'
         }
     }
 }
