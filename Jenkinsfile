@@ -17,4 +17,18 @@ node {
             }
         }
     }
+
+    stage('Deploy') {
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh './jenkins/scripts/deliver.sh'
+            }
+        }
+        input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+        script {
+            docker.image('node:16-buster-slim').inside {
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+    }
 }
